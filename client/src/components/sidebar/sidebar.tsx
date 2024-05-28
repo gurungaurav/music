@@ -3,9 +3,63 @@ import { GoHomeFill, GoSearch } from "react-icons/go";
 import { VscLibrary } from "react-icons/vsc";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BoxComp } from "./sideBox";
-import liked from "../../assets/liked.jpg";
+import liked from "../../assets/bill.jfif";
+import SideArtistsLists from "./sideArtistsLists";
+import { HomeMainArtistsProps } from "../../interfaces/types/components/component.interfaces";
 
 export default function Sidebar() {
+  const data: HomeMainArtistsProps[] = [
+    {
+      id: "1",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "2",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "3",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "4",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "5",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "6",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "7",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "8",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "9",
+      image: liked,
+      title: "Liked songs",
+    },
+    {
+      id: "10",
+      image: liked,
+      title: "Liked songs",
+    },
+  ];
   return (
     <div className="flex flex-col gap-2 w-[20%] h-full">
       <div className="bg-primaryColor p-4 rounded-md flex flex-col gap-4  ">
@@ -25,18 +79,16 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
-        <div className="p-1">
-          <div className="flex gap-3 text-xs  font-semibold items-center hover:bg-hoverColor px-2 py-2 rounded-md duration-300 cursor-pointer">
-            <img className="w-[44px] h-[44px] rounded-md" src={liked}></img>
-            <div className="flex flex-col gap-1">
-              <p className="text-sm">Liked Songs</p>
-              <span className="flex gap-2">
-                <p>Playlist</p>
-                <p>.</p>
-                <p>420 songs</p>
-              </span>
-            </div>
-          </div>
+        <div className="p-1 h-[32rem] overflow-hidden overflow-y-auto">
+          {data?.map((data, index) => (
+            <span key={index}>
+              <SideArtistsLists
+                id={data.id}
+                image={data.image}
+                title={data.title}
+              />
+            </span>
+          ))}
         </div>
       </div>
     </div>
