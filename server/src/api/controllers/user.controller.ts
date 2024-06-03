@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express-serve-static-core";
-import { UserRegisterDTO } from "../dtos/user.dto";
+import { UserLoginDTO, UserRegisterDTO } from "../dtos/user.dto";
 import { userService } from "../services/user.service";
 import { successHandler } from "../../handlers/success/successHandler";
 import CustomError from "../../handlers/errors/customError";
-import { UserDetails } from "../interfaces/types/user.interfaces";
+import { JWTPayloadTypes, UserDetails } from "../types/user.interfaces";
+import { checkPassword, hashPassword } from "../utils/bcryptPass";
+import { jwtCreation } from "../utils/token-manager";
 
 class UserController {
   //For getting all users
@@ -28,15 +30,67 @@ class UserController {
     next: NextFunction
   ) => {
     try {
-      const userDTO = req.body;
+      // const extendedReq = req as ExtendedRequest;
 
-      const userAddition = await userService.registerUser(userDTO);
+      const userDTO = req.body;
+      console.log(userDTO, "ajaj");
+
+      const hashedPass = await hashPassword(userDTO.password);
+
+      const hashedUser = { ...userDTO, password: hashedPass };
+
+      const userAddition = await userService.registerUser(hashedUser);
 
       if (userAddition) {
         return successHandler(res, 201, null, "User registered successfully.");
       } else {
         throw new CustomError("User registration failed", 400);
       }
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  loginUser = async (
+    req: Request<{}, {}, UserLoginDTO>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const injectDTO = req.user;
+      const userDTO = req.body;
+      const passCheck = await checkPassword(
+        userDTO.password,
+        injectDTO.password
+      );
+
+      if (!passCheck) {
+        throw new CustomError("Password did'not matched", 400);
+      }
+
+      const jwtPayload: JWTPayloadTypes = {
+        name: injectDTO.name,
+        id: injectDTO.id,
+        email: injectDTO.email,
+        picture: injectDTO.picture,
+      };
+
+      const jwt = jwtCreation(jwtPayload);
+
+      const userDetails: UserDetails = {
+        name: injectDTO.name,
+        email: injectDTO.email,
+        picture: injectDTO.picture,
+      };
+
+      res.cookie("token", jwt, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict",
+        maxAge: 600000,
+      });
+
+      successHandler(res, 201, userDetails, "User logged in successfully!");
     } catch (e) {
       next(e);
     }
@@ -50,7 +104,7 @@ class UserController {
     try {
       const userId = req.params.user_id;
 
-      const user = await userService.getSpecficUser(userId);
+      const user = await userService.getUserById(userId);
 
       if (user != null) {
         return successHandler(res, 200, user, "Specific user's details");

@@ -15,7 +15,6 @@ const RegisterForm: React.FC<{ handleClose: () => void }> = ({
     initialValues: {
       name: "",
       email: "",
-      phoneNumber: "",
       password: "",
     },
     validationSchema: Yup.object({
@@ -23,9 +22,6 @@ const RegisterForm: React.FC<{ handleClose: () => void }> = ({
         .max(50, "Must be 50 characters or less")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      phoneNumber: Yup.string()
-        .length(10, "Must be exactly 10 digits")
-        .required("Required"),
       password: Yup.string()
         .min(8, "Must be at least 8 characters")
         .required("Required"),
@@ -37,12 +33,7 @@ const RegisterForm: React.FC<{ handleClose: () => void }> = ({
 
   const Register = async (values: RegisterUserTypes) => {
     try {
-      const updatedValues = {
-        ...values,
-        phoneNumber: values.phoneNumber.toString(),
-      };
-
-      const res = await RegisterUser(updatedValues);
+      const res = await RegisterUser(values);
       console.log(res);
       toast({
         description: res.data.message,
@@ -65,10 +56,9 @@ const RegisterForm: React.FC<{ handleClose: () => void }> = ({
           className="p-2 rounded-full hover:bg-hoverColor cursor-pointer duration-300"
           onClick={handleClose}
         >
-          <RxCross1 className="text-2xl" />
+          <RxCross1 className="text-2xl " />
         </div>
       </div>
-
       <form onSubmit={formik.handleSubmit} className="text-white">
         <FormInput
           id="name"
@@ -82,13 +72,6 @@ const RegisterForm: React.FC<{ handleClose: () => void }> = ({
           label="Email"
           type="email"
           placeholder="Email"
-          formik={formik}
-        />
-        <FormInput
-          id="phoneNumber"
-          label="Phone Number"
-          type="number"
-          placeholder="Phone Number"
           formik={formik}
         />
         <FormInput

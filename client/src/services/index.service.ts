@@ -6,6 +6,7 @@ const baseURL = import.meta.env.VITE_BASE_URL;
 
 export const url = axios.create({
   baseURL: baseURL,
+  withCredentials: true, // Include credentials (cookies) in requests
   headers: {
     Authorization: `Bearer `,
   },

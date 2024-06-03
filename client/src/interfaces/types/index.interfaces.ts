@@ -13,3 +13,9 @@ export interface RouteTypes {
   requiredAuth?: boolean;
   layout?: React.LazyExoticComponent<any>;
 }
+
+export interface UserStateTypes {
+  picture: string;
+  name: string;
+  email: string;
+}

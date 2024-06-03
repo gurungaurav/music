@@ -3,12 +3,14 @@ import liked from "../assets/sajjan.jfif";
 import bill from "../assets/bill.jfif";
 import { HomeMainArtistsProps } from "../interfaces/types/components/component.interfaces";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeMainCard from "../components/home/homeMainCard";
+import { getCookies } from "@/utils/cookies-handler";
 
 const HomePage = () => {
   const [hoveredBox, setHoveredBox] = useState<number | null>(null);
   const [hoveredArtist, setHoveredArtist] = useState<number | null>(null);
+  const [getToken, setToken] = useState<string | null>(null);
 
   let data: HomeMainArtistsProps[] = [
     {
@@ -85,6 +87,11 @@ const HomePage = () => {
       title: "Liked Songs",
     },
   ];
+
+  useEffect(() => {
+    const eheh = getCookies();
+    console.log(eheh);
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 w-full bg-primaryColor p-4   rounded-md overflow-hidden overflow-y-auto h-[680px]">

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express-serve-static-core";
-import { UserRegisterDTO } from "../dtos/user.dto";
+import { UserLoginDTO, UserRegisterDTO } from "../dtos/user.dto";
 import { userService } from "../services/user.service";
 import CustomError from "../../handlers/errors/customError";
 
@@ -10,16 +10,36 @@ export const checkUserExistence = async (
 ) => {
   try {
     const userDTO = req.body;
-    const userExists = await userService.checkUserExistence(userDTO);
-
+    const userExists = await userService.getUserByEmail(userDTO.email);
     if (userExists) {
       throw new CustomError(
         "User has been already registered with this email",
-        401
+        400
       );
     }
 
-    // req.userDTO = userDTO;
+    req.user = userExists;
+    next();
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const checkUserLogin = async (
+  req: Request<{}, {}, UserLoginDTO>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userDTO = req.body;
+    const user = await userService.getUserByEmail(userDTO.email);
+
+    if (!user) {
+      throw new CustomError("User has not been registered yet!", 400);
+    }
+
+    //Injecting the values for reusing
+    req.user = user;
     next();
   } catch (e) {
     next(e);

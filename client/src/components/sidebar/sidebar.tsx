@@ -70,9 +70,32 @@ export default function Sidebar() {
         <div className="p-4">
           <BoxComp icon={<VscLibrary />} name="Your library" path="/none" />
           <div className="flex justify-between text-xs mt-4">
-            <span className="p-1 rounded-full hover:bg-hoverColor cursor-pointer hover:text-white duration-300">
+            {/* <span className="p-1 rounded-full hover:bg-hoverColor cursor-pointer hover:text-white duration-300">
               <GoSearch className="text-lg" />
-            </span>
+            </span> */}
+            <div className="">
+              <form action="" className="relative mx-auto w-max">
+                <input
+                  type="search"
+                  placeholder="Search artists"
+                  className="peer cursor-pointer relative z-10 h-10 w-6 rounded-full bg-transparent  pl-10 outline-none transition-all duration-300 ease-in-out focus:w-full focus:border focus:cursor-text focus:border-neutral-700 focus:pl-16 focus:pr-4"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="absolute inset-y-0 my-auto h-9 w-11 border-r border-transparent stroke-gray-500 px-3 transition-all duration-300 ease-in-out peer-focus:border-neutral-700 peer-focus:stroke-neutral-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </form>
+            </div>
             <div className="flex gap-2 items-center  hover:text-white duration-300 cursor-pointer ">
               <p className="font-semibold">Recents</p>
               <RxHamburgerMenu />

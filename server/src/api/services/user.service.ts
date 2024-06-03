@@ -1,18 +1,19 @@
+import { Users } from "@prisma/client";
 import { prisma } from "../../..";
-import { UserRegisterDTO } from "../dtos/user.dto";
-import { UserDetails } from "../interfaces/types/user.interfaces";
+import { UserLoginDTO, UserRegisterDTO } from "../dtos/user.dto";
+import { UserDetails } from "../types/user.interfaces";
 
 class UserService {
   //For getting all users
   getUserDetails = async (): Promise<UserDetails[]> => {
     const userDetails = await prisma.users.findMany({
-      select: { name: true, email: true, createdAt: true },
+      select: { name: true, email: true, picture: true },
     });
 
     return userDetails.map((user) => ({
       name: user.name,
       email: user.email,
-      createdAt: user.createdAt,
+      picture: user.picture,
     }));
   };
 
@@ -29,26 +30,22 @@ class UserService {
     return false;
   };
 
-  //Checking if the user already exists or not
-  checkUserExistence = async (userDTO: UserRegisterDTO): Promise<boolean> => {
-    const userExists = await prisma.users.findFirst({
-      where: { email: userDTO.email },
-    });
+  //Getting user by Id
+  getUserById = async (id: string): Promise<Users> => {
+    const user = await prisma.users.findFirst({ where: { id: id } });
 
-    if (userExists) {
-      return true;
+    if (user) {
+      return user;
     } else {
-      return false;
+      return null;
     }
   };
 
-  getSpecficUser = async (user_id: string): Promise<UserDetails> => {
-    const user: UserDetails = await prisma.users.findFirst({
-      select: { name: true, email: true, createdAt: true },
-      where: { id: user_id },
-    });
+  //Getting user by email
+  getUserByEmail = async (email: string): Promise<Users> => {
+    const user = await prisma.users.findFirst({ where: { email: email } });
 
-    if (user != undefined) {
+    if (user) {
       return user;
     } else {
       return null;
