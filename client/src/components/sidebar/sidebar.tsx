@@ -102,7 +102,7 @@ export default function Sidebar() {
             </div>
           </div>
         </div>
-        <div className="p-1 h-[32rem] overflow-hidden overflow-y-auto">
+        <div className="p-1 h-[492px] overflow-hidden overflow-y-auto">
           {data?.map((data, index) => (
             <span key={index}>
               <SideArtistsLists

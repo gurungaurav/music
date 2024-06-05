@@ -10,6 +10,7 @@ body,
     background-color: black;
     color-scheme: dark;
     color: #b3b3b3;
+    font-family: 'DM Sans', sans-serif;
 }
   @layer base {
     :root {

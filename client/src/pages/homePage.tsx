@@ -1,11 +1,10 @@
 import HomeMainBox from "../components/home/homeMainBox";
 import liked from "../assets/sajjan.jfif";
-import bill from "../assets/bill.jfif";
 import { HomeMainArtistsProps } from "../interfaces/types/components/component.interfaces";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import HomeMainCard from "../components/home/homeMainCard";
-import { getCookies } from "@/utils/cookies-handler";
+import bill from "../assets/bill.jfif";
 
 const HomePage = () => {
   const [hoveredBox, setHoveredBox] = useState<number | null>(null);
@@ -88,13 +87,29 @@ const HomePage = () => {
     },
   ];
 
-  useEffect(() => {
-    const eheh = getCookies();
-    console.log(eheh);
-  }, []);
+  let hehe =
+    "  http://localhost:4000/uploads/music/b765a8add257c732318b8c53cd7381a0";
+  // const playMusic = () => {
+  //   new Audio(hehe).play();
+  // };
+
+  const audioList = [
+    {
+      name: "Song Name",
+      singer: "Singer Name",
+      cover: bill,
+      musicSrc: hehe,
+    },
+    {
+      name: "Song ",
+      singer: "Singer ",
+      cover: bill,
+      musicSrc: hehe,
+    },
+  ];
 
   return (
-    <div className="flex flex-col gap-4 w-full bg-primaryColor p-4   rounded-md overflow-hidden overflow-y-auto h-[680px]">
+    <div className="flex flex-col gap-4 w-full bg-primaryColor p-4   rounded-md overflow-hidden overflow-y-auto h-[670px]">
       <div className="flex gap-1 ">
         <div className="p-2 rounded-full bg-black text-white text-sm">
           <FaChevronLeft />
@@ -130,6 +145,9 @@ const HomePage = () => {
           />
         ))}
       </div>
+      {/* <button onClick={playMusic}>play music</button> */}
+      {/* <ReactJkMusicPlayer mode="full" audioLists={audioList} /> */}
+      {/* <MusicPlayer audioList={audioList} /> */}
     </div>
   );
 };

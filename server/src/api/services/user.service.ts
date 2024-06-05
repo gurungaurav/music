@@ -1,7 +1,7 @@
 import { Users } from "@prisma/client";
 import { prisma } from "../../..";
-import { UserLoginDTO, UserRegisterDTO } from "../dtos/user.dto";
-import { UserDetails } from "../types/user.interfaces";
+import { UserRegisterDTO } from "../dtos/user.dto";
+import { UserDetails } from "../types/index.interfaces";
 
 class UserService {
   //For getting all users

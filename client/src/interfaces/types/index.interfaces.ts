@@ -19,3 +19,9 @@ export interface UserStateTypes {
   name: string;
   email: string;
 }
+
+export interface AddMusicTypes {
+  title: string;
+  music: File | null;
+  image: File | null;
+}

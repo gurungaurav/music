@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 import jwt from "jsonwebtoken";
-import { JWTPayloadTypes, JwtPayloadExtended } from "../types/user.interfaces";
+import { JWTPayloadTypes, JwtPayloadExtended } from "../types/index.interfaces";
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 

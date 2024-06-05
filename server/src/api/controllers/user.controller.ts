@@ -3,7 +3,7 @@ import { UserLoginDTO, UserRegisterDTO } from "../dtos/user.dto";
 import { userService } from "../services/user.service";
 import { successHandler } from "../../handlers/success/successHandler";
 import CustomError from "../../handlers/errors/customError";
-import { JWTPayloadTypes, UserDetails } from "../types/user.interfaces";
+import { JWTPayloadTypes, UserDetails } from "../types/index.interfaces";
 import { checkPassword, hashPassword } from "../utils/bcryptPass";
 import { jwtCreation } from "../utils/token-manager";
 
@@ -84,10 +84,10 @@ class UserController {
       };
 
       res.cookie("token", jwt, {
-        httpOnly: true,
-        secure: true,
+        httpOnly: false, // Must be false to access in JS
+        secure: false, // For local development. Set to true in production with HTTPS
         sameSite: "strict",
-        maxAge: 600000,
+        maxAge: 1000000,
       });
 
       successHandler(res, 201, userDetails, "User logged in successfully!");
