@@ -5,3 +5,8 @@ export const AddMusic = (form: FormData) => {
 
   return url.post("/music/addMusic", form);
 };
+
+export const getMusic = (id: string | undefined) => {
+  id = id != "" ? id : undefined;
+  return url.get(`/music/getHome/${id}`);
+};

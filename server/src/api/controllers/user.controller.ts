@@ -30,10 +30,7 @@ class UserController {
     next: NextFunction
   ) => {
     try {
-      // const extendedReq = req as ExtendedRequest;
-
       const userDTO = req.body;
-      console.log(userDTO, "ajaj");
 
       const hashedPass = await hashPassword(userDTO.password);
 
@@ -78,6 +75,7 @@ class UserController {
       const jwt = jwtCreation(jwtPayload);
 
       const userDetails: UserDetails = {
+        id: injectDTO.id,
         name: injectDTO.name,
         email: injectDTO.email,
         picture: injectDTO.picture,
@@ -87,7 +85,7 @@ class UserController {
         httpOnly: false, // Must be false to access in JS
         secure: false, // For local development. Set to true in production with HTTPS
         sameSite: "strict",
-        maxAge: 1000000,
+        maxAge: 24 * 60 * 60 * 1000, //For a day 24 hrs
       });
 
       successHandler(res, 201, userDetails, "User logged in successfully!");

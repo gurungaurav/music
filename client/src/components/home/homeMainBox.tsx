@@ -3,10 +3,11 @@ import { TbPlayerPlayFilled } from "react-icons/tb";
 import { HomeMainArtistsWithHoverProps } from "../../interfaces/types/components/component.interfaces";
 
 const HomeMainBox: React.FC<HomeMainArtistsWithHoverProps> = ({
-  id,
-  image,
-  title,
+  picture,
+  name,
   isHovered,
+  email,
+  id,
   onMouseEnter,
   onMouseLeave,
 }) => {
@@ -20,10 +21,10 @@ const HomeMainBox: React.FC<HomeMainArtistsWithHoverProps> = ({
       <div className="flex gap-3 items-center text-sm font-semibold text-white">
         <img
           alt={"no image"}
-          src={image}
+          src={picture}
           className="w-[75px] h-[75px] rounded-l-md object-cover"
         />
-        <p>{title}</p>
+        <p>{name}</p>
       </div>
       {isHovered && (
         <div

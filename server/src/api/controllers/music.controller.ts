@@ -4,6 +4,7 @@ import { musicService } from "../services/music.service";
 import { successHandler } from "../../handlers/success/successHandler";
 import CustomError from "../../handlers/errors/customError";
 import { MusicTypes, MusicWithUserTypes } from "../dtos/music.dto";
+import { HomeMusicTypes } from "../types/index.interfaces";
 
 dotenv.config();
 
@@ -17,7 +18,7 @@ class MusicController {
       const user = req.user;
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-      const musicFile = files?.music?.[0];
+      const musicFile = files?.url?.[0];
       const imageFile = files?.image?.[0];
 
       let songDTO = req.body;
@@ -28,8 +29,8 @@ class MusicController {
       console.log(music);
 
       let songDetails: MusicWithUserTypes = {
-        title: songDTO.title,
-        music,
+        name: songDTO.name,
+        url: music,
         image,
         user,
       };
@@ -41,6 +42,36 @@ class MusicController {
       } else {
         throw new CustomError("Failure while addition of song.", 400);
       }
+    } catch (e) {
+      next(e);
+    }
+  };
+
+  getAllHomeDetails = async (
+    req: Request<{ id: string }>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.params.id;
+
+      let details: HomeMusicTypes;
+
+      if (userId != undefined || userId == "") {
+        console.log("ja");
+        details = await musicService.getHomeMusicWithUserId(userId);
+      } else {
+        console.log("jaaaa");
+
+        details = await musicService.getHomeMusicWithoutUserId();
+      }
+
+      return successHandler(
+        res,
+        200,
+        details,
+        "These are the details for home."
+      );
     } catch (e) {
       next(e);
     }

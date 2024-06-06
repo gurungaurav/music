@@ -7,10 +7,11 @@ class UserService {
   //For getting all users
   getUserDetails = async (): Promise<UserDetails[]> => {
     const userDetails = await prisma.users.findMany({
-      select: { name: true, email: true, picture: true },
+      select: { id: true, name: true, email: true, picture: true },
     });
 
     return userDetails.map((user) => ({
+      id: user.id,
       name: user.name,
       email: user.email,
       picture: user.picture,

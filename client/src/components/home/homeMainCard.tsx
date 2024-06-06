@@ -1,15 +1,13 @@
 import React from "react";
-import { HomeMainArtistsWithHoverProps } from "../../interfaces/types/components/component.interfaces";
+import { HomeMainSongsWithHoverProps } from "../../interfaces/types/components/component.interfaces";
 import { TbPlayerPlayFilled } from "react-icons/tb";
+import { MusicWithUserTypes } from "@/interfaces/types/index.interfaces";
 
-const HomeMainCard: React.FC<HomeMainArtistsWithHoverProps> = ({
-  id,
-  image,
-  title,
-  isHovered,
-  onMouseEnter,
-  onMouseLeave,
-}) => {
+const HomeMainCard: React.FC<
+  HomeMainSongsWithHoverProps & { userName: string }
+> = ({ image, url, userName, name, isHovered, onMouseEnter, onMouseLeave }) => {
+  console.log(image);
+
   return (
     <div
       className="flex flex-col px-4 pt-4 pb-8 gap-2  rounded-md  bg-neutral-900 hover:bg-hoverColor duration-300 cursor-pointer"
@@ -18,7 +16,7 @@ const HomeMainCard: React.FC<HomeMainArtistsWithHoverProps> = ({
     >
       <div className="flex relative items-center justify-center shadow-lg  rounded-full">
         <img
-          src={image}
+          src="http://localhost:4000/uploads/music/1717689493411-29f84a3269152cfe14b88f6587a6089a.jpg"
           className="w-[157px] h-[157px] rounded-full object-cover "
         ></img>
         {isHovered && (
@@ -30,8 +28,8 @@ const HomeMainCard: React.FC<HomeMainArtistsWithHoverProps> = ({
         )}
       </div>
       <div className="">
-        <p className="font-bold text-white ">{title} </p>
-        <p className="text-sm font-semibold">Artist</p>
+        <p className="font-bold text-white ">{name} </p>
+        <p className="text-sm font-semibold">{userName}</p>
       </div>
     </div>
   );

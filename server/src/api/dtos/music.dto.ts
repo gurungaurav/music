@@ -1,9 +1,9 @@
 import { Users } from "@prisma/client";
 
 export interface MusicTypes {
-  title: string;
+  name: string;
   image: string;
-  music: string;
+  url: string;
 }
 
 export interface MusicWithUserTypes extends MusicTypes {

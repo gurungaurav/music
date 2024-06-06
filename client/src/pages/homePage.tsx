@@ -1,48 +1,23 @@
 import HomeMainBox from "../components/home/homeMainBox";
-import liked from "../assets/sajjan.jfif";
-import { HomeMainArtistsProps } from "../interfaces/types/components/component.interfaces";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HomeMainCard from "../components/home/homeMainCard";
 import bill from "../assets/bill.jfif";
+import { getMusic } from "@/services/music/music.service";
+import { useSelector } from "react-redux";
+import {
+  MusicTypes,
+  MusicWithUserTypes,
+  UserStateTypes,
+} from "@/interfaces/types/index.interfaces";
 
 const HomePage = () => {
   const [hoveredBox, setHoveredBox] = useState<number | null>(null);
   const [hoveredArtist, setHoveredArtist] = useState<number | null>(null);
-  const [getToken, setToken] = useState<string | null>(null);
+  const [artistLists, setArtistLists] = useState<UserStateTypes[]>([]);
+  const [musicLists, setMusicLists] = useState<MusicWithUserTypes[]>([]);
 
-  let data: HomeMainArtistsProps[] = [
-    {
-      id: "1",
-      image: liked,
-      title: "Liked Songs",
-    },
-    {
-      id: "2",
-      image: liked,
-      title: "Liked Songs",
-    },
-    {
-      id: "3",
-      image: liked,
-      title: "Liked Songs",
-    },
-    {
-      id: "4",
-      image: liked,
-      title: "Liked Songs",
-    },
-    {
-      id: "5",
-      image: liked,
-      title: "Liked Songs",
-    },
-    {
-      id: "6",
-      image: liked,
-      title: "Liked Songs",
-    },
-  ];
+  const { id } = useSelector((state) => state.user);
 
   let dataS: HomeMainArtistsProps[] = [
     {
@@ -108,6 +83,22 @@ const HomePage = () => {
     },
   ];
 
+  const getHomeMusicDetails = async () => {
+    try {
+      const res = await getMusic(id);
+      console.log(res);
+      let data = res.data.data;
+      setMusicLists(data.songs);
+      setArtistLists(data.users);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getHomeMusicDetails();
+  }, []);
+
   return (
     <div className="flex flex-col gap-4 w-full bg-primaryColor p-4   rounded-md overflow-hidden overflow-y-auto h-[670px]">
       <div className="flex gap-1 ">
@@ -120,12 +111,13 @@ const HomePage = () => {
       </div>
       <p className="text-2xl font-semibold text-white">Good morning </p>
       <div className="grid grid-cols-3 gap-4">
-        {data.map((box, index) => (
+        {artistLists.map((box, index) => (
           <HomeMainBox
             key={box.id}
             id={box.id}
-            image={box.image}
-            title={box.title}
+            email={box.email}
+            picture={box.picture}
+            name={box.name}
             isHovered={hoveredBox === index}
             onMouseEnter={() => setHoveredBox(index)}
             onMouseLeave={() => setHoveredBox(null)}
@@ -133,15 +125,16 @@ const HomePage = () => {
         ))}
       </div>
       <div className="grid grid-cols-6 gap-4">
-        {dataS.map((data, index) => (
+        {musicLists.map((data, index) => (
           <HomeMainCard
-            key={data.id}
-            id={data.id}
+            key={index}
             isHovered={hoveredArtist === index}
             onMouseEnter={() => setHoveredArtist(index)}
             onMouseLeave={() => setHoveredArtist(null)}
+            name={data.name}
             image={data.image}
-            title={data.title}
+            url={data.url}
+            userName={data.user.name}
           />
         ))}
       </div>

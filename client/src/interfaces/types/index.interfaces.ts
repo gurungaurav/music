@@ -15,13 +15,18 @@ export interface RouteTypes {
 }
 
 export interface UserStateTypes {
+  id: string;
   picture: string;
   name: string;
   email: string;
 }
 
-export interface AddMusicTypes {
-  title: string;
-  music: File | null;
-  image: File | null;
+export interface MusicTypes {
+  name: string;
+  url: File | null | string;
+  image: File | null | string;
+}
+
+export interface MusicWithUserTypes extends MusicTypes {
+  user: UserStateTypes;
 }

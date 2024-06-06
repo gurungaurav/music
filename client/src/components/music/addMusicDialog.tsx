@@ -3,33 +3,29 @@ import * as Yup from "yup";
 import { RxCross1 } from "react-icons/rx";
 import { useToast } from "@/components/ui/use-toast";
 import FormInput from "../auth/formInput";
-import { AddMusicTypes } from "@/interfaces/types/index.interfaces";
+import { MusicTypes } from "@/interfaces/types/index.interfaces";
 import { AddMusic } from "@/services/music/music.service";
+import { musicValidationSchema } from "@/schemas/music.schema";
 
-const AddMusicDialog: React.FC<{ handleClose: () => void }> = ({
+const AddurlDialog: React.FC<{ handleClose: () => void }> = ({
   handleClose,
 }) => {
   const { toast } = useToast();
 
+  const initialValues: MusicTypes = {
+    name: "",
+    url: null,
+    image: null,
+  };
   const formik = useFormik({
-    initialValues: {
-      title: "",
-      music: null,
-      image: null,
-    },
-    validationSchema: Yup.object({
-      title: Yup.string()
-        .max(50, "Must be 50 characters or less")
-        .required("Required"),
-      music: Yup.mixed().required("Required"),
-      image: Yup.mixed().required("Required"),
-    }),
+    initialValues: initialValues,
+    validationSchema: musicValidationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
-      formData.append("title", values.title);
+      formData.append("name", values.name);
 
-      if (values.music !== null) {
-        formData.append("music", values.music);
+      if (values.url !== null) {
+        formData.append("url", values.url);
       }
 
       if (values.image !== null) {
@@ -77,10 +73,10 @@ const AddMusicDialog: React.FC<{ handleClose: () => void }> = ({
       </div>
       <form onSubmit={formik.handleSubmit} className="text-white">
         <FormInput
-          id="title"
-          label="Song title"
+          id="name"
+          label="Song name"
           type="text"
-          placeholder="Song title"
+          placeholder="Song name"
           formik={formik}
         />
         <div className="mb-4">
@@ -108,27 +104,24 @@ const AddMusicDialog: React.FC<{ handleClose: () => void }> = ({
           ) : null}
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="music"
-            className="block text-sm font-medium text-white"
-          >
+          <label htmlFor="url" className="block text-sm font-medium text-white">
             Select a song file
           </label>
           <input
-            id="music"
-            name="music"
+            id="url"
+            name="url"
             type="file"
             onChange={(event) => {
               formik.setFieldValue(
-                "music",
+                "url",
                 event.currentTarget.files && event.currentTarget.files[0]
               );
             }}
             onBlur={formik.handleBlur}
             className="mt-1 p-2 block w-full rounded-md bg-hoverColor border-gray-600 text-white"
           />
-          {formik.touched.music && formik.errors.music ? (
-            <div className="text-red-500 text-sm">{formik.errors.music}</div>
+          {formik.touched.url && formik.errors.url ? (
+            <div className="text-red-500 text-sm">{formik.errors.url}</div>
           ) : null}
         </div>
         <button
@@ -142,4 +135,4 @@ const AddMusicDialog: React.FC<{ handleClose: () => void }> = ({
   );
 };
 
-export default AddMusicDialog;
+export default AddurlDialog;

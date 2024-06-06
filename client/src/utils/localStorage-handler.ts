@@ -1,7 +1,12 @@
 import { UserStateTypes } from "@/interfaces/types/index.interfaces";
 
-export const setLocalStorage = ({ picture, name, email }: UserStateTypes) => {
-  const userDetails = JSON.stringify({ picture, name, email });
+export const setLocalStorage = ({
+  id,
+  picture,
+  name,
+  email,
+}: UserStateTypes) => {
+  const userDetails = JSON.stringify({ id, picture, name, email });
 
   localStorage.setItem("data", userDetails);
 };
