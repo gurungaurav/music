@@ -1,4 +1,3 @@
-// src/index.js
 import express from "express";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
@@ -10,11 +9,34 @@ import helmet from "helmet";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
+const frontendUrl = process.env.FRONTEND_BASE_URL;
 
-//!Middlewares
+// Use helmet for security headers
 app.use(helmet());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-app.use("/uploads/music", express.static("uploads/music"));
+
+// Configure CORS to allow requests from the frontend URL
+app.use(
+  cors({
+    origin: frontendUrl,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Middleware to set CORS headers for static files
+app.use(
+  "/uploads/music",
+  (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", frontendUrl);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header("Cross-Origin-Resource-Policy", "cross-origin"); // Add this header
+
+    next();
+  },
+  express.static("uploads/music")
+);
+
 app.use(express.json());
 
 export const prisma = new PrismaClient();

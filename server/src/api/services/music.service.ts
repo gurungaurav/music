@@ -27,7 +27,7 @@ class MusicService {
   //! The id will be undefined and errors will occur so yeah tei user ko account suggest or na dekehuani vanera afu logged in garda tei ho
   getHomeMusicWithUserId = async (id: string): Promise<HomeMusicTypes> => {
     const getMusic = await prisma.songs.findMany({
-      where: { userId: { not: id } },
+      where: { id: { not: id } },
       select: {
         name: true,
         image: true,
@@ -44,6 +44,8 @@ class MusicService {
     });
 
     const getArtists = await prisma.users.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 6,
       where: { id: { not: id } },
       select: { id: true, name: true, email: true, picture: true },
     });

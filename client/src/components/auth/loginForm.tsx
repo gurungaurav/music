@@ -36,7 +36,12 @@ const LoginForm: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
       console.log(res);
       let data: UserStateTypes = res.data.data;
       dispatch(
-        setData({ name: data.name, email: data.email, picture: data.picture })
+        setData({
+          id: data.id,
+          name: data.name,
+          email: data.email,
+          picture: data.picture,
+        })
       );
       toast({
         description: res.data.message,

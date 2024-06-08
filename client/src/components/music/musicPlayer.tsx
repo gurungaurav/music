@@ -1,3 +1,4 @@
+import { AudioTrackTypes } from "@/interfaces/types/index.interfaces";
 import React, { useState, useRef, useEffect, ChangeEvent } from "react";
 import {
   FaVolumeUp,
@@ -7,15 +8,8 @@ import {
 } from "react-icons/fa";
 import { FaForwardStep, FaBackwardStep } from "react-icons/fa6";
 
-interface AudioTrack {
-  name: string;
-  singer: string;
-  cover: string;
-  musicSrc: string;
-}
-
 interface MusicPlayerProps {
-  audioList: AudioTrack[];
+  audioList: AudioTrackTypes[];
 }
 
 const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {

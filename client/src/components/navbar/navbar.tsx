@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Dialog, DialogContent, Menu, MenuItem } from "@mui/material";
 import RegisterForm from "../auth/registerForm";
 import LoginForm from "../auth/loginForm";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import AddMusicDialog from "../music/addMusicDialog";
+import { clearData } from "@/redux/slice/userSlice";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import useWindow from "@/hooks/useWindowHook";
 
 export default function Navbar() {
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -11,6 +14,8 @@ export default function Navbar() {
   const [hoverProfile, setHoverProfile] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openAddMusic, setAddMusic] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   let { name, picture } = useSelector((state: any) => state.user);
 
@@ -32,8 +37,20 @@ export default function Navbar() {
     setAnchorEl(null);
   };
 
+  const [width, height] = useWindow();
+
+  console.log(height);
+
   return (
-    <div className="flex gap-4 justify-end items-end sticky top-0 font-semibold text-xs pb-2">
+    <div className="flex gap-4 justify-between absolute top-3 w-[79%] py-1 px-5  font-semibold text-xs pb-2 z-20 ">
+      <div className="flex gap-1 ">
+        <div className="p-2 rounded-full bg-black text-white text-sm">
+          <FaChevronLeft />
+        </div>
+        <div className="p-2 rounded-full bg-black text-white text-sm">
+          <FaChevronRight />
+        </div>
+      </div>
       {name == "" ? (
         <>
           <div
@@ -87,7 +104,12 @@ export default function Navbar() {
             >
               Add a song
             </MenuItem>
-            <MenuItem onClick={handleMenuClose} sx={{ fontSize: "0.800rem" }}>
+            <MenuItem
+              onClick={() => {
+                handleMenuClose(), dispatch(clearData());
+              }}
+              sx={{ fontSize: "0.800rem" }}
+            >
               Logout
             </MenuItem>
           </Menu>

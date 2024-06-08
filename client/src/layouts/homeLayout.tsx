@@ -9,7 +9,7 @@ const HomeLayout: React.FC<LayoutPropTypes> = ({ children }) => {
     <div className="flex flex-col">
       <div className="flex w-full p-2 gap-2">
         <Sidebar />
-        <div className="flex flex-col w-[80%]">
+        <div className="flex flex-col w-[80%]   rounded-md overflow-hidden overflow-y-auto h-[710px]">
           <Navbar />
           {children}
         </div>

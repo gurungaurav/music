@@ -30,3 +30,10 @@ export interface MusicTypes {
 export interface MusicWithUserTypes extends MusicTypes {
   user: UserStateTypes;
 }
+
+export interface AudioTrackTypes {
+  name: string;
+  singer: string;
+  cover: string;
+  musicSrc: string;
+}

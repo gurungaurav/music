@@ -54,15 +54,13 @@ class MusicController {
   ) => {
     try {
       const userId = req.params.id;
+      console.log(userId);
 
       let details: HomeMusicTypes;
 
       if (userId != undefined || userId == "") {
-        console.log("ja");
         details = await musicService.getHomeMusicWithUserId(userId);
       } else {
-        console.log("jaaaa");
-
         details = await musicService.getHomeMusicWithoutUserId();
       }
 
