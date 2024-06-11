@@ -25,4 +25,11 @@ userRoutes.post(
   userController.loginUser
 );
 
-userRoutes.get("/getSpecificUser/:user_id", userController.getSpecificUser);
+userRoutes.get("/getSpecificUser/:id", userController.getSpecificUser);
+
+userRoutes.get(
+  "/getUserWithMusic/:id",
+  userController.getSpecificUserWithMusic
+);
+
+userRoutes.get("/getSideBarArtists", userController.sideBarArtists);

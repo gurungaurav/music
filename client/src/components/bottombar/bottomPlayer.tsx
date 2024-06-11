@@ -32,7 +32,7 @@ export default function BottomPlayer() {
     //   </div>
     // </div>
     <div className="w-full">
-      <MusicPlayer audioList={audioList} />
+      <MusicPlayer />
     </div>
   );
 }

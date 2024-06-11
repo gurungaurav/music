@@ -39,7 +39,7 @@ const RegisterForm: React.FC<{ handleClose: () => void }> = ({
         description: res.data.message,
         duration: 4000,
       });
-    } catch (e: unknown) {
+    } catch (e: any) {
       console.log(e.response.data.message);
       toast({
         description: e.response.data.message,

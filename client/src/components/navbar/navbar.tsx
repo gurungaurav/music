@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import AddMusicDialog from "../music/addMusicDialog";
 import { clearData } from "@/redux/slice/userSlice";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import useWindow from "@/hooks/useWindowHook";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -15,31 +15,26 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openAddMusic, setAddMusic] = useState<boolean>(false);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let { name, picture } = useSelector((state: any) => state.user);
+  let { id, name, picture } = useSelector((state: any) => state.user);
 
   const handleClickOpen = () => {
     setOpenSignUp(true);
   };
 
-  console.log(name);
-
   const handleClose = () => {
     setOpenSignUp(false);
   };
 
-  const handleMenuClick = (event) => {
+  const handleMenuClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
-  const [width, height] = useWindow();
-
-  console.log(height);
 
   return (
     <div className="flex gap-4 justify-between absolute top-3 w-[79%] py-1 px-5  font-semibold text-xs pb-2 z-20 ">
@@ -52,7 +47,7 @@ export default function Navbar() {
         </div>
       </div>
       {name == "" ? (
-        <>
+        <div className="flex gap-2 mr-6">
           <div
             className="p-2 rounded-3xl cursor-pointer hover:scale-105 duration-300"
             role="button"
@@ -66,7 +61,7 @@ export default function Navbar() {
           >
             <p>Log in</p>
           </div>
-        </>
+        </div>
       ) : (
         <div className="">
           <img
@@ -92,7 +87,13 @@ export default function Navbar() {
               },
             }}
           >
-            <MenuItem onClick={handleMenuClose} sx={{ fontSize: "0.800rem" }}>
+            <MenuItem
+              onClick={() => {
+                handleMenuClose();
+                navigate(`/artist/${id}`);
+              }}
+              sx={{ fontSize: "0.800rem" }}
+            >
               Profile
             </MenuItem>
             <MenuItem
@@ -129,9 +130,6 @@ export default function Navbar() {
         <DialogContent className="bg-black">
           <LoginForm handleClose={() => setOpenLogin(false)} />
         </DialogContent>
-        {/* <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions> */}
       </Dialog>
     </div>
   );

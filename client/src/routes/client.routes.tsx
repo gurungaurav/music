@@ -12,15 +12,15 @@ export const clientRoutes = [
     hasAdminLayout: false,
   },
   {
-    id: "home",
+    id: "search",
     path: "/search",
     element: SearchPage,
     hasHomeLayout: true,
     hasAdminLayout: false,
   },
   {
-    id: "home",
-    path: "/profile",
+    id: "profile",
+    path: "/artist/:id",
     element: ProfilePage,
     hasHomeLayout: true,
     hasAdminLayout: false,

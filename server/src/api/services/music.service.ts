@@ -1,6 +1,7 @@
 import { prisma } from "../../..";
 import { MusicWithUserTypes } from "../dtos/music.dto";
 import { HomeMusicTypes } from "../types/index.interfaces";
+import { songSelectFields } from "../utils/prismaSelectQueries";
 
 class MusicService {
   addMusic = async (song: MusicWithUserTypes): Promise<boolean> => {
@@ -28,19 +29,7 @@ class MusicService {
   getHomeMusicWithUserId = async (id: string): Promise<HomeMusicTypes> => {
     const getMusic = await prisma.songs.findMany({
       where: { id: { not: id } },
-      select: {
-        name: true,
-        image: true,
-        url: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            picture: true,
-          },
-        },
-      },
+      select: songSelectFields,
     });
 
     const getArtists = await prisma.users.findMany({
@@ -61,19 +50,7 @@ class MusicService {
   //! When user is not logged in
   getHomeMusicWithoutUserId = async (): Promise<HomeMusicTypes> => {
     const getMusic = await prisma.songs.findMany({
-      select: {
-        name: true,
-        image: true,
-        url: true,
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            picture: true,
-          },
-        },
-      },
+      select: songSelectFields,
     });
 
     const getArtists = await prisma.users.findMany({

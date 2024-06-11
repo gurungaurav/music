@@ -1,65 +1,25 @@
 import { LuSearch } from "react-icons/lu";
-import { GoHomeFill, GoSearch } from "react-icons/go";
+import { GoHomeFill } from "react-icons/go";
 import { VscLibrary } from "react-icons/vsc";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BoxComp } from "./sideBox";
-import liked from "../../assets/bill.jfif";
 import SideArtistsLists from "./sideArtistsLists";
-import { HomeMainArtistsProps } from "../../interfaces/types/components/component.interfaces";
+import useSideBarDetailsHook from "@/hooks/useSideBarDetailsHook";
+import React, { useState } from "react";
+import { debounce } from "lodash";
 
 export default function Sidebar() {
-  const data: HomeMainArtistsProps[] = [
-    {
-      id: "1",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "2",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "3",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "4",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "5",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "6",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "7",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "8",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "9",
-      image: liked,
-      title: "Liked songs",
-    },
-    {
-      id: "10",
-      image: liked,
-      title: "Liked songs",
-    },
-  ];
+  const [queryName, setQueryName] = useState<string | null>(null);
+
+  const { artistLists } = useSideBarDetailsHook(queryName);
+
+  const updateNameQuery = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQueryName(e?.target?.value);
+  };
+
+  //!This will delay the input time its like settime out but the set time out will run after each given seconds like for each input which is bad
+  //! But this will take only once after required seconds
+  const debounceOnChange = debounce(updateNameQuery, 500);
   return (
     <div className="flex flex-col gap-2 w-[20%] h-full">
       <div className="bg-primaryColor p-4 rounded-md flex flex-col gap-4  ">
@@ -78,6 +38,7 @@ export default function Sidebar() {
                 <input
                   type="search"
                   placeholder="Search artists"
+                  onChange={debounceOnChange}
                   className="peer cursor-pointer relative z-10 h-10 w-6 rounded-full bg-transparent  pl-10 outline-none transition-all duration-300 ease-in-out focus:w-full focus:border focus:cursor-text focus:border-neutral-700 focus:pl-16 focus:pr-4"
                 />
                 <svg
@@ -103,12 +64,14 @@ export default function Sidebar() {
           </div>
         </div>
         <div className="p-1 h-[492px] overflow-hidden overflow-y-auto">
-          {data?.map((data, index) => (
+          {artistLists?.map((data, index) => (
             <span key={index}>
               <SideArtistsLists
+                key={index}
                 id={data.id}
-                image={data.image}
-                title={data.title}
+                name={data.name}
+                picture={data.picture}
+                email=""
               />
             </span>
           ))}

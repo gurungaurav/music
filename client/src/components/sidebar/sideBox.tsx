@@ -1,5 +1,5 @@
+import { BoxCompProps } from "@/interfaces/types/sidebar/sidebar.interfaces";
 import { NavLink } from "react-router-dom";
-import { BoxCompProps } from "../../interfaces/types/index.interfaces";
 
 export const BoxComp: React.FC<BoxCompProps> = ({ icon, name, path }) => {
   return (

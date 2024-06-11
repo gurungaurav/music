@@ -1,5 +1,5 @@
-import { AudioTrackTypes } from "@/interfaces/types/index.interfaces";
-import React, { useState, useRef, useEffect, ChangeEvent } from "react";
+import React, { useRef, useEffect, ChangeEvent } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   FaVolumeUp,
   FaVolumeMute,
@@ -7,18 +7,20 @@ import {
   FaPlayCircle,
 } from "react-icons/fa";
 import { FaForwardStep, FaBackwardStep } from "react-icons/fa6";
+import {
+  setPlaying,
+  setCurrentTrack,
+  setVolume,
+  setTrackProgress,
+} from "../../redux/slice/musicPlayerSlice";
 
-interface MusicPlayerProps {
-  audioList: AudioTrackTypes[];
-}
-
-const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState(0);
-  const [volume, setVolume] = useState(1);
-  const [trackProgress, setTrackProgress] = useState(0);
+const MusicPlayer: React.FC = () => {
+  const dispatch = useDispatch();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const intervalRef = useRef<number | null>(null);
+
+  const { isPlaying, currentTrack, volume, trackProgress, audioList } =
+    useSelector((state: any) => state.musicPlayer);
 
   const { duration } = audioRef.current || {};
   const currentPercentage = duration ? (trackProgress / duration) * 100 : 0;
@@ -30,31 +32,35 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {
     } else {
       audioRef.current?.play();
       intervalRef.current = window.setInterval(() => {
-        if (audioRef.current) setTrackProgress(audioRef.current.currentTime);
+        if (audioRef.current)
+          dispatch(setTrackProgress(audioRef.current.currentTime));
       }, 1000);
     }
-    setIsPlaying(!isPlaying);
+    dispatch(setPlaying(!isPlaying));
   };
 
   const handleNext = () => {
-    setCurrentTrack((prev) => (prev + 1) % audioList.length);
-    setIsPlaying(true);
+    dispatch(setCurrentTrack((currentTrack + 1) % audioList.length));
+    dispatch(setPlaying(true));
   };
 
   const handlePrev = () => {
-    setCurrentTrack((prev) => (prev - 1 + audioList.length) % audioList.length);
-    setIsPlaying(true);
+    dispatch(
+      setCurrentTrack((currentTrack - 1 + audioList.length) % audioList.length)
+    );
+    dispatch(setPlaying(true));
   };
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setVolume(parseFloat(e.target.value));
-    if (audioRef.current) audioRef.current.volume = parseFloat(e.target.value);
+    const volume = parseFloat(e.target.value);
+    dispatch(setVolume(volume));
+    if (audioRef.current) audioRef.current.volume = volume;
   };
 
   const handleSeek = (e: ChangeEvent<HTMLInputElement>) => {
     const newTime = (parseFloat(e.target.value) / 100) * (duration || 0);
     if (audioRef.current) audioRef.current.currentTime = newTime;
-    setTrackProgress(newTime);
+    dispatch(setTrackProgress(newTime));
   };
 
   useEffect(() => {
@@ -71,20 +77,31 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {
       if (isPlaying) {
         audioRef.current.play();
         intervalRef.current = window.setInterval(() => {
-          if (audioRef.current) setTrackProgress(audioRef.current.currentTime);
+          if (audioRef.current)
+            dispatch(setTrackProgress(audioRef.current.currentTime));
         }, 1000);
       }
     }
   }, [currentTrack]);
 
+  if (!audioList || audioList.length === 0) {
+    return <div>No audio available</div>;
+  }
+
+  if (currentTrack < 0 || currentTrack >= audioList.length) {
+    return <div>Invalid current track index</div>;
+  }
+
+  console.log(audioList[currentTrack]); // Check the value of audioList[currentTrack]
+
   return (
-    <div className="flex  justify-between  items-center bg-black text-white w-full px-4  ">
+    <div className="flex justify-between items-center bg-black text-white w-full px-4">
       <audio ref={audioRef} />
-      <div className="flex items-center  w-full">
+      <div className="flex items-center w-full">
         <img
           src={audioList[currentTrack].cover}
           alt={audioList[currentTrack].name}
-          className="w-[50px] h-[51px] rounded-md mr-4"
+          className="w-[50px] h-[51px] rounded-md mr-4 object-cover"
         />
         <div>
           <h3 className="text-xs font-semibold">
@@ -96,7 +113,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {
         </div>
       </div>
       <div className="flex flex-col gap-3 w-full items-center justify-center">
-        <div className="flex  gap-5 w-full items-center justify-center ">
+        <div className="flex gap-5 w-full items-center justify-center">
           <FaBackwardStep
             onClick={handlePrev}
             className="cursor-pointer text-xl"
@@ -124,10 +141,9 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {
           min="0"
           max="100"
           onChange={handleSeek}
-          className="w-full h-1 bg-gray-300 rounded-lg "
+          className="w-full h-1 bg-gray-300 rounded-lg"
         />
       </div>
-
       <div className="flex justify-end w-full items-center">
         {volume > 0 ? (
           <FaVolumeUp className="mr-2" />
@@ -141,7 +157,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ audioList }) => {
           step="0.01"
           value={volume}
           onChange={handleVolumeChange}
-          className="h-1 "
+          className="h-1"
         />
       </div>
     </div>

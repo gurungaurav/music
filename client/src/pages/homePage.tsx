@@ -1,36 +1,13 @@
 import HomeMainBox from "../components/home/homeMainBox";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import HomeMainCard from "../components/home/homeMainCard";
-import { getMusic } from "@/services/music/music.service";
-import { useSelector } from "react-redux";
-import {
-  MusicWithUserTypes,
-  UserStateTypes,
-} from "@/interfaces/types/index.interfaces";
+import useHomeDetailsHook from "@/hooks/useHomeDetailsHook";
 
 const HomePage = () => {
   const [hoveredBox, setHoveredBox] = useState<number | null>(null);
   const [hoveredArtist, setHoveredArtist] = useState<number | null>(null);
-  const [artistLists, setArtistLists] = useState<UserStateTypes[]>([]);
-  const [musicLists, setMusicLists] = useState<MusicWithUserTypes[]>([]);
 
-  const { id } = useSelector((state) => state.user);
-
-  const getHomeMusicDetails = async () => {
-    try {
-      const res = await getMusic(id);
-      console.log(res);
-      let data = res.data.data;
-      setMusicLists(data.songs);
-      setArtistLists(data.users);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getHomeMusicDetails();
-  }, []);
+  const { artistLists, musicLists } = useHomeDetailsHook();
 
   return (
     <div className="flex flex-col gap-4 w-full bg-primaryColor p-4 pt-14 ">

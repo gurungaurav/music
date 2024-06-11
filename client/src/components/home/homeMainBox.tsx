@@ -1,18 +1,15 @@
 import React from "react";
 import { TbPlayerPlayFilled } from "react-icons/tb";
 import { HomeMainArtistsWithHoverProps } from "../../interfaces/types/components/component.interfaces";
+import { Link } from "react-router-dom";
 
-const HomeMainBox: React.FC<HomeMainArtistsWithHoverProps> = ({
-  picture,
-  name,
-  isHovered,
-  email,
-  id,
-  onMouseEnter,
-  onMouseLeave,
-}) => {
+const HomeMainBox: React.FC<HomeMainArtistsWithHoverProps> = (
+  props: HomeMainArtistsWithHoverProps
+) => {
+  const { onMouseEnter, onMouseLeave, picture, name, isHovered, id } = props;
   return (
-    <div
+    <Link
+      to={`/artist/${id}`}
       className={`flex justify-between rounded-md bg-hoverColor items-center cursor-pointer hover:bg-neutral-700 duration-300`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -33,7 +30,7 @@ const HomeMainBox: React.FC<HomeMainArtistsWithHoverProps> = ({
           <TbPlayerPlayFilled />
         </div>
       )}
-    </div>
+    </Link>
   );
 };
 

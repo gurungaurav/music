@@ -1,5 +1,4 @@
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import { RxCross1 } from "react-icons/rx";
 import { useToast } from "@/components/ui/use-toast";
 import FormInput from "../auth/formInput";

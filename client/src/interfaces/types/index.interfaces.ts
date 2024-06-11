@@ -27,6 +27,10 @@ export interface MusicTypes {
   image: File | null | string;
 }
 
+export interface IUserWithMusicTypes extends UserStateTypes {
+  songs: MusicTypes[];
+}
+
 export interface MusicWithUserTypes extends MusicTypes {
   user: UserStateTypes;
 }
@@ -34,6 +38,6 @@ export interface MusicWithUserTypes extends MusicTypes {
 export interface AudioTrackTypes {
   name: string;
   singer: string;
-  cover: string;
-  musicSrc: string;
+  cover: File | null | string;
+  musicSrc: File | null | string;
 }

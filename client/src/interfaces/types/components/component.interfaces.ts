@@ -1,12 +1,6 @@
 import { FormikProps } from "formik";
 import { MusicTypes, UserStateTypes } from "../index.interfaces";
 
-// export interface HomeMainArtistsProps {
-//   id: string;
-//   image: string;
-//   title: string;
-// }
-
 export interface HomeMainArtistsWithHoverProps extends UserStateTypes {
   isHovered: boolean;
   onMouseEnter: () => void;
