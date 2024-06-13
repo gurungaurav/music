@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import FormInput from "./formInput";
 import { RxCross1 } from "react-icons/rx";
-import { RegisterUser } from "../../services/auth/loginRegi.service";
+import { RegisterUser } from "../../services/auth/auth.service";
 import { RegisterUserTypes } from "../../interfaces/types/auth/logiRegi.interfaces";
 import { useToast } from "@/components/ui/use-toast";
 

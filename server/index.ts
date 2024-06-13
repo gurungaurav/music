@@ -5,6 +5,7 @@ import cors from "cors";
 import indexRoutes from "./src/api/routes/index.routes";
 import { errorHandler } from "./src/handlers/errors/errorHandler";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
@@ -13,6 +14,7 @@ const frontendUrl = process.env.FRONTEND_BASE_URL;
 
 // Use helmet for security headers
 app.use(helmet());
+app.use(cookieParser());
 
 // Configure CORS to allow requests from the frontend URL
 app.use(

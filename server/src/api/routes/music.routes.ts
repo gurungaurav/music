@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { verifyJwtTokenMiddleware } from "../middlewares/jwt.middleware";
+import { verifyAccessJwtTokenMiddleware } from "../middlewares/jwt.middleware";
 import { musicController } from "../controllers/music.controller";
 import { createMulterUpload } from "../utils/multer-manager";
 
@@ -14,7 +14,7 @@ const uploadFields = upload.fields([
 musicRoutes.post(
   "/addMusic",
   uploadFields,
-  verifyJwtTokenMiddleware,
+  verifyAccessJwtTokenMiddleware,
   musicController.addMusic
 );
 

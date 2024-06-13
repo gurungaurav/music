@@ -8,30 +8,40 @@ import { UserStateTypes } from "@/interfaces/types/index.interfaces";
 
 const localStorageData = getLocalStorage();
 
-const initialState: UserStateTypes = {
+interface IUserWithAccessToken extends UserStateTypes {
+  token: string;
+}
+const initialState: IUserWithAccessToken = {
   id: localStorageData?.id ?? "",
   picture: localStorageData?.picture ?? "",
   name: localStorageData?.name ?? "",
   email: localStorageData?.email ?? "",
+  token: "",
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setData: (state, action: PayloadAction<UserStateTypes>) => {
-      const { id, picture, name, email } = action.payload;
+    setData: (state, action: PayloadAction<IUserWithAccessToken>) => {
+      const { id, picture, name, email, token } = action.payload;
       setLocalStorage({ id, picture, name, email });
+      state.id = id;
       state.picture = picture;
       state.name = name;
       state.email = email;
+      state.token = token;
     },
-    updateData: (state, action: PayloadAction<Partial<UserStateTypes>>) => {
-      const { id, picture, name, email } = action.payload;
+    updateData: (
+      state,
+      action: PayloadAction<Partial<IUserWithAccessToken>>
+    ) => {
+      const { id, picture, name, email, token } = action.payload;
       if (id !== undefined) state.id = id;
       if (picture !== undefined) state.picture = picture;
       if (name !== undefined) state.name = name;
       if (email !== undefined) state.email = email;
+      if (token !== undefined) state.token = token;
 
       setLocalStorage({
         id: state.id,
@@ -46,6 +56,7 @@ const userSlice = createSlice({
       state.picture = "";
       state.name = "";
       state.email = "";
+      state.token = "";
     },
   },
 });

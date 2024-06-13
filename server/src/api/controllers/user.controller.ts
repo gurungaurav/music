@@ -1,15 +1,9 @@
 import { Request, Response, NextFunction } from "express-serve-static-core";
-import {
-  IUserDetailsWithMusic,
-  UserLoginDTO,
-  UserRegisterDTO,
-} from "../dtos/user.dto";
+import { IUserDetailsWithMusic } from "../dtos/user.dto";
 import { userService } from "../services/user.service";
 import { successHandler } from "../../handlers/success/successHandler";
 import CustomError from "../../handlers/errors/customError";
-import { JWTPayloadTypes, UserDetails } from "../types/index.interfaces";
-import { checkPassword, hashPassword } from "../utils/bcryptPass";
-import { jwtCreation } from "../utils/token-manager";
+import { UserDetails } from "../types/index.interfaces";
 
 class UserController {
   //For getting all users
@@ -22,77 +16,6 @@ class UserController {
       const userDetails = await userService.getUserDetails();
 
       return successHandler(res, 200, userDetails, "These are the all user's");
-    } catch (e) {
-      next(e);
-    }
-  };
-
-  //For registration of the user
-  registerUser = async (
-    req: Request<{}, {}, UserRegisterDTO>,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const userDTO = req.body;
-
-      const hashedPass = await hashPassword(userDTO.password);
-
-      const hashedUser = { ...userDTO, password: hashedPass };
-
-      const userAddition = await userService.registerUser(hashedUser);
-
-      if (userAddition) {
-        return successHandler(res, 201, null, "User registered successfully.");
-      } else {
-        throw new CustomError("User registration failed", 400);
-      }
-    } catch (e) {
-      next(e);
-    }
-  };
-
-  loginUser = async (
-    req: Request<{}, {}, UserLoginDTO>,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const injectDTO = req.user;
-      const userDTO = req.body;
-      const passCheck = await checkPassword(
-        userDTO.password,
-        injectDTO.password
-      );
-
-      if (!passCheck) {
-        throw new CustomError("Password did'not matched", 400);
-      }
-
-      const jwtPayload: JWTPayloadTypes = {
-        name: injectDTO.name,
-        id: injectDTO.id,
-        email: injectDTO.email,
-        picture: injectDTO.picture,
-      };
-
-      const jwt = jwtCreation(jwtPayload);
-
-      const userDetails: UserDetails = {
-        id: injectDTO.id,
-        name: injectDTO.name,
-        email: injectDTO.email,
-        picture: injectDTO.picture,
-      };
-
-      res.cookie("token", jwt, {
-        httpOnly: false, // Must be false to access in JS
-        secure: false, // For local development. Set to true in production with HTTPS
-        sameSite: "strict",
-        maxAge: 24 * 60 * 60 * 1000, //For a day 24 hrs
-      });
-
-      successHandler(res, 201, userDetails, "User logged in successfully!");
     } catch (e) {
       next(e);
     }

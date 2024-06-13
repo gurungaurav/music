@@ -5,10 +5,10 @@ import { useFormik } from "formik";
 import { RxCross1 } from "react-icons/rx";
 import FormInput from "./formInput";
 import React from "react";
-import { LoginUser } from "@/services/auth/loginRegi.service";
 import { useDispatch } from "react-redux";
 import { setData } from "@/redux/slice/userSlice";
 import { UserStateTypes } from "@/interfaces/types/index.interfaces";
+import { LoginUser } from "@/services/auth/auth.service";
 
 const LoginForm: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
   const { toast } = useToast();
@@ -34,13 +34,14 @@ const LoginForm: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
     try {
       const res = await LoginUser(values);
       console.log(res);
-      let data: UserStateTypes = res.data.data;
+      let data: UserStateTypes & { token: string } = res.data.data;
       dispatch(
         setData({
           id: data.id,
           name: data.name,
           email: data.email,
           picture: data.picture,
+          token: data.token,
         })
       );
       toast({

@@ -7,6 +7,7 @@ import AddMusicDialog from "../music/addMusicDialog";
 import { clearData } from "@/redux/slice/userSlice";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { LogoutUser } from "@/services/auth/auth.service";
 
 export default function Navbar() {
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -18,7 +19,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let { id, name, picture } = useSelector((state: any) => state.user);
+  let { id, name, picture, token } = useSelector((state: any) => state.user);
 
   const handleClickOpen = () => {
     setOpenSignUp(true);
@@ -34,6 +35,18 @@ export default function Navbar() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+  console.log(token, "token");
+
+  const logout = async () => {
+    try {
+      handleMenuClose();
+      dispatch(clearData());
+      const res = await LogoutUser();
+      console.log(res.data);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -105,12 +118,7 @@ export default function Navbar() {
             >
               Add a song
             </MenuItem>
-            <MenuItem
-              onClick={() => {
-                handleMenuClose(), dispatch(clearData());
-              }}
-              sx={{ fontSize: "0.800rem" }}
-            >
+            <MenuItem onClick={logout} sx={{ fontSize: "0.800rem" }}>
               Logout
             </MenuItem>
           </Menu>

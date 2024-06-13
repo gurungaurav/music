@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import CustomError from "../../handlers/errors/customError";
-import { jwtVerification } from "../utils/token-manager";
+import { jwtRefreshVerification } from "../utils/token-manager";
 import { userService } from "../services/user.service";
 
-export const verifyJwtTokenMiddleware = async (
+//!This is the actual verification of the jwt
+export const verifyAccessJwtTokenMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -25,7 +26,7 @@ export const verifyJwtTokenMiddleware = async (
       throw new CustomError("Invalid token.", 400);
     }
 
-    const verifiedToken = jwtVerification(token);
+    const verifiedToken = jwtRefreshVerification(token);
 
     if (!verifiedToken) {
       throw new CustomError("Invalid token.", 500);
