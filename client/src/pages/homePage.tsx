@@ -11,7 +11,9 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full bg-primaryColor p-4 pt-14 ">
-      <p className="text-2xl font-semibold text-white">Good morning </p>
+      <p className="text-2xl font-semibold text-white">
+        Good night bruhhh lol broski{" "}
+      </p>
       <div className="grid grid-cols-3 gap-4">
         {artistLists.map((box, index) => (
           <HomeMainBox

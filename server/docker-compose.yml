@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres-container-latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Iangrg112
+      POSTGRES_DB: music
+    ports:
+      - "5432:5432" # Optional: Expose this if you need to access the DB from the host
+    networks:
+      - app-network
+
+  backend:
+    image: music-backend:latest
+    ports:
+      - "7000:7000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:Iangrg112@db:5432/music
+    networks:
+      - app-network
+
+  frontend:
+    image: music-frontend:latest
+    ports:
+      - "3000:4173"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

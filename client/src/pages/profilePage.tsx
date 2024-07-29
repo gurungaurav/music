@@ -1,5 +1,5 @@
 import { TbPlayerPlayFilled } from "react-icons/tb";
-import wall from "../assets/bigWall.jpg";
+import wall from "@/assets/red-image.jpg";
 import { MdVerified } from "react-icons/md";
 import { PiDotsThreeBold } from "react-icons/pi";
 import { useState } from "react";
@@ -23,7 +23,7 @@ export default function ProfilePage() {
 
   const { artistDetails, errorRes } = useProfileDetailsHook(id ?? "defaultId");
 
-  let songs: AudioTrackTypes[] = (artistDetails?.songs ?? []).map((song) => {
+  const songs: AudioTrackTypes[] = (artistDetails?.songs ?? []).map((song) => {
     return {
       name: song.name,
       singer: artistDetails?.name ?? "",

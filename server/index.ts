@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 7000;
 const frontendUrl = process.env.FRONTEND_BASE_URL;
 
 // Use helmet for security headers
@@ -19,9 +19,8 @@ app.use(cookieParser());
 // Configure CORS to allow requests from the frontend URL
 app.use(
   cors({
-    origin: frontendUrl,
+    origin: "https://practice-frontend-flax.vercel.app",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );

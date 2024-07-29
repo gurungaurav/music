@@ -6,7 +6,7 @@ import { RouteTypes } from "../interfaces/types/index.interfaces";
 
 // Define MainWrapper component with proper prop types
 function MainWrapper({
-  route,
+  route, 
   children,
 }: {
   route: RouteTypes;
