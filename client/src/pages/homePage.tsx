@@ -12,7 +12,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col gap-4 w-full bg-primaryColor p-4 pt-14 ">
       <p className="text-2xl font-semibold text-white">
-        Good night bruhhh lol broski{" "}
+        Good night bruhhh lol broskisasas{" "}
       </p>
       <div className="grid grid-cols-3 gap-4">
         {artistLists.map((box, index) => (
@@ -30,7 +30,7 @@ const HomePage = () => {
       </div>
       <p>
         Slider with first is new songs or randoms songs and second will be
-        recently played and third will be recently liked
+        recently played and third will be recently liked asasa
       </p>
       <div className="grid grid-cols-6 gap-4">
         {musicLists.map((data, index) => (
