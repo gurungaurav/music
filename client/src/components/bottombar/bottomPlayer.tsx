@@ -13,7 +13,7 @@ export default function BottomPlayer() {
     //     <p>Song adjust</p>
     //   </div>
     // </div>
-    <div className="w-full">
+    <div className="w-full sticky bottom-0 ">
       <MusicPlayer />
     </div>
   );

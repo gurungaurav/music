@@ -10,6 +10,7 @@ const initialState: IMusicPlayerState = {
   trackProgress: 0,
   audioList: [],
 };
+
 const musicPlayerSlice = createSlice({
   name: "musicPlayer",
   initialState,

@@ -10,22 +10,22 @@ const HomeMainBox: React.FC<HomeMainArtistsWithHoverProps> = (
   return (
     <Link
       to={`/artist/${id}`}
-      className={`flex justify-between rounded-md bg-hoverColor items-center cursor-pointer hover:bg-neutral-700 duration-300`}
+      className={`flex justify-between rounded-md bg-hoverColor items-center cursor-pointer hover:bg-neutral-700 duration-300 min-h-[60px] sm:min-h-[75px]`}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       // role="button"
     >
-      <div className="flex gap-3 items-center text-sm font-semibold text-white">
+      <div className="flex gap-2 sm:gap-3 items-center text-xs sm:text-sm font-semibold text-white overflow-hidden">
         <img
           alt={"no image"}
           src={picture}
-          className="w-[75px] h-[75px] rounded-l-md object-cover"
+          className="w-[60px] h-[60px] sm:w-[75px] sm:h-[75px] rounded-l-md object-cover flex-shrink-0"
         />
-        <p>{name}</p>
+        <p className="truncate">{name}</p>
       </div>
       {isHovered && (
         <div
-          className={`p-3 text-xl mr-6  ${"bg-green-500 text-black"} rounded-full`}
+          className={`p-2 sm:p-3 text-lg sm:text-xl mr-3 sm:mr-6 ${"bg-green-500 text-black"} rounded-full flex-shrink-0`}
         >
           <TbPlayerPlayFilled />
         </div>

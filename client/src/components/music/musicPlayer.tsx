@@ -85,83 +85,108 @@ const MusicPlayer: React.FC = () => {
   }, [currentTrack]);
 
   if (!audioList || audioList.length === 0) {
-    return <div>No audio available</div>;
+    return <div className="p-4 text-center">No audio available</div>;
   }
 
   if (currentTrack < 0 || currentTrack >= audioList.length) {
-    return <div>Invalid current track index</div>;
+    return <div className="p-4 text-center">Invalid current track index</div>;
   }
 
-  console.log(audioList[currentTrack]); // Check the value of audioList[currentTrack]
-
   return (
-    <div className="flex justify-between items-center bg-black text-white w-full px-4">
+    <div className="fixed bottom-0 left-0 right-0 bg-black text-white p-2 z-50">
       <audio ref={audioRef} />
-      <div className="flex items-center w-full">
-        <img
-          src={audioList[currentTrack].cover}
-          alt={audioList[currentTrack].name}
-          className="w-[50px] h-[51px] rounded-md mr-4 object-cover"
-        />
-        <div>
-          <h3 className="text-xs font-semibold">
-            {audioList[currentTrack].name}
-          </h3>
-          <p className="text-[10px] text-gray-400">
-            {audioList[currentTrack].singer}
-          </p>
-        </div>
-      </div>
-      <div className="flex flex-col gap-3 w-full items-center justify-center">
-        <div className="flex gap-5 w-full items-center justify-center">
-          <FaBackwardStep
-            onClick={handlePrev}
-            className="cursor-pointer text-xl"
+
+      <div className="  flex flex-col md:flex-row items-center gap-4 justify-between">
+        {/* Track Info */}
+        <div className="flex items-center w-full md:w-auto min-w-[200px]">
+          <img
+            src={audioList[currentTrack].cover}
+            alt={audioList[currentTrack].name}
+            className="w-12 h-12 md:w-14 md:h-14 rounded-md mr-3 object-cover"
           />
-          {isPlaying ? (
-            <FaPauseCircle
-              onClick={handlePlayPause}
-              className="cursor-pointer text-3xl"
-            />
-          ) : (
-            <FaPlayCircle
-              onClick={handlePlayPause}
-              className="cursor-pointer text-3xl"
-            />
-          )}
-          <FaForwardStep
-            onClick={handleNext}
-            className="cursor-pointer text-xl"
-          />
+          <div className="truncate">
+            <h3 className="text-sm md:text-base font-semibold truncate">
+              {audioList[currentTrack].name}
+            </h3>
+            <p className="text-xs md:text-sm text-gray-400 truncate">
+              {audioList[currentTrack].singer}
+            </p>
+          </div>
         </div>
-        <input
-          type="range"
-          value={currentPercentage}
-          step="0.1"
-          min="0"
-          max="100"
-          onChange={handleSeek}
-          className="w-full h-1 bg-gray-300 rounded-lg"
-        />
-      </div>
-      <div className="flex justify-end w-full items-center">
-        {volume > 0 ? (
-          <FaVolumeUp className="mr-2" />
-        ) : (
-          <FaVolumeMute className="mr-2" />
-        )}
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-          className="h-1"
-        />
+
+        {/* Player Controls */}
+        <div className="flex-1 w-full max-w-2xl">
+          <div className="flex flex-col items-center gap-2 w-full">
+            <div className="flex items-center gap-4 md:gap-6">
+              <FaBackwardStep
+                onClick={handlePrev}
+                className="cursor-pointer text-lg md:text-xl hover:text-gray-300 transition-colors"
+              />
+              {isPlaying ? (
+                <FaPauseCircle
+                  onClick={handlePlayPause}
+                  className="cursor-pointer text-3xl md:text-4xl hover:text-gray-300 transition-colors"
+                />
+              ) : (
+                <FaPlayCircle
+                  onClick={handlePlayPause}
+                  className="cursor-pointer text-3xl md:text-4xl hover:text-gray-300 transition-colors"
+                />
+              )}
+              <FaForwardStep
+                onClick={handleNext}
+                className="cursor-pointer text-lg md:text-xl hover:text-gray-300 transition-colors"
+              />
+            </div>
+            <div className="w-full flex items-center gap-2">
+              <span className="text-xs text-gray-400 hidden sm:inline">
+                {formatTime(trackProgress)}
+              </span>
+              <input
+                type="range"
+                value={currentPercentage}
+                step="0.1"
+                min="0"
+                max="100"
+                onChange={handleSeek}
+                className="flex-1 h-1 md:h-2 bg-gray-600 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+              />
+              <span className="text-xs text-gray-400 hidden sm:inline">
+                {formatTime(duration || 0)}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Volume Control */}
+        <div className="flex items-center w-full md:w-auto md:min-w-[150px] justify-end">
+          <div className="hidden sm:flex items-center gap-2 w-full max-w-[150px]">
+            {volume > 0 ? (
+              <FaVolumeUp className="text-gray-400" />
+            ) : (
+              <FaVolumeMute className="text-gray-400" />
+            )}
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+              className="w-full h-1 md:h-2 bg-gray-600 rounded-full appearance-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
+};
+
+// Helper function to format time (mm:ss)
+const formatTime = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
 };
 
 export default MusicPlayer;

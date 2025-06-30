@@ -21,15 +21,15 @@ export default function Sidebar() {
   //! But this will take only once after required seconds
   const debounceOnChange = debounce(updateNameQuery, 500);
   return (
-    <div className="flex flex-col gap-2 w-[20%] h-full">
-      <div className="bg-primaryColor p-4 rounded-md flex flex-col gap-4  ">
+    <div className=" flex-col gap-2 hidden md:flex md:w-[20%] max-h-screen sticky top-0">
+      <div className="bg-primaryColor p-4 rounded-md flex flex-col gap-4 ">
         <BoxComp icon={<GoHomeFill />} name="Home" path="/" />
-        <BoxComp icon={<LuSearch />} name="Search" path="/search" />
+        {/* <BoxComp icon={<LuSearch />} name="Search" path="/search" /> */}
       </div>
-      <div className="bg-primaryColor  rounded-md flex flex-col">
-        <div className="p-4">
-          <BoxComp icon={<VscLibrary />} name="Your library" path="/none" />
-          <div className="flex justify-between text-xs mt-4">
+      <div className="bg-primaryColor  rounded-md flex flex-col h-full">
+        <div className="p-2">
+          {/* <BoxComp icon={<VscLibrary />} name="Your library" path="/none" /> */}
+          <div className="flex justify-between text-xs mt-2">
             {/* <span className="p-1 rounded-full hover:bg-hoverColor cursor-pointer hover:text-white duration-300">
               <GoSearch className="text-lg" />
             </span> */}

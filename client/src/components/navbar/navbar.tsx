@@ -51,14 +51,15 @@ export default function Navbar() {
 
   return (
     <div className="flex gap-4 justify-between absolute top-3 w-[79%] py-1 px-5  font-semibold text-xs pb-2 z-20 ">
-      <div className="flex gap-1 ">
+      <span></span>
+      {/* <div className="flex gap-1 ">
         <div className="p-2 rounded-full bg-black text-white text-sm">
           <FaChevronLeft />
         </div>
         <div className="p-2 rounded-full bg-black text-white text-sm">
           <FaChevronRight />
         </div>
-      </div>
+      </div> */}
       {name == "" ? (
         <div className="flex gap-2 mr-6">
           <div

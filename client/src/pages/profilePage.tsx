@@ -1,7 +1,5 @@
-import { TbPlayerPlayFilled } from "react-icons/tb";
 import wall from "@/assets/red-image.jpg";
 import { MdVerified } from "react-icons/md";
-import { PiDotsThreeBold } from "react-icons/pi";
 import { useState } from "react";
 import MainMusicCard from "@/components/profile/mainMusicCard";
 import useProfileDetailsHook from "@/hooks/useProfileDetailsHook";
@@ -44,36 +42,57 @@ export default function ProfilePage() {
   console.log(artistDetails);
 
   return (
-    <div
-      className=" w-full h-full  bg-bottom bg-no-repeat bg-cover z-10  text-white"
-      style={{ backgroundImage: `url(${wall})`, backgroundAttachment: "fixed" }}
-    >
-      <div className="mt-44 px-4">
-        <span className="flex gap-1  items-center">
-          <MdVerified className="text-blue-500 text-2xl" />
-          <p className=" text-sm font-semibold">Verified Artist</p>
-        </span>
-        <h4 className=" font-bold text-7xl mt-1 mb-4">{artistDetails?.name}</h4>
-        <p className="text-sm font-semibold ">94,372,881 monthly listeners</p>
-      </div>
+    <div className="w-full min-h-screen bg-primaryColor text-white">
+      {/* Hero Section with Background Image */}
       <div
-        // className="bg-gradient-to-b from-blue-950 via-primaryColor/100 to-primaryColor p-4 mt-6"
-        className="bg-primaryColor p-4 mt-6 h-full"
+        className="relative w-full h-[50vh]   bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${wall})`,
+        }}
       >
-        <div className="flex items-center  gap-8 ">
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40"></div>
+
+        {/* Artist Details */}
+        <div className="relative z-10 h-full flex flex-col justify-end p-2 ">
+          <div className="max-w-7xl mx-auto w-full">
+            <span className="flex gap-1 items-center mb-2 ">
+              <MdVerified className="text-blue-500 text-lg sm:text-xl md:text-2xl" />
+              <p className="text-xs sm:text-sm font-semibold">
+                Verified Artist
+              </p>
+            </span>
+            <h1 className="font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl  mb-2 sm:mb-4 leading-tight drop-shadow-lg">
+              {artistDetails?.name}
+            </h1>
+            {/* <p className="text-sm sm:text-base font-semibold drop-shadow-md">
+              94,372,881 monthly listeners
+            </p> */}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content Section */}
+      <div className="max-w-7xl mx-auto px-2  py-6 sm:py-8">
+        {/* Action Buttons */}
+        {/* <div className="flex items-center gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8">
           <div
-            className={`p-3 text-xl  w-fit ${"bg-green-500 text-black"} hover:scale-105 duration-300 cursor-pointer rounded-full`}
+            className={`p-3 sm:p-4 text-xl sm:text-2xl w-fit ${"bg-green-500 text-black"} hover:scale-105 duration-300 cursor-pointer rounded-full shadow-lg`}
           >
             <TbPlayerPlayFilled />
           </div>
-          <div className="px-4 rounded-3xl flex py-1 cursor-pointer hover:border-white border-secondaryColor hover:scale-105 duration-300 text-center items-center border text-[12px] font-semibold">
+          <div className="px-4 sm:px-6 rounded-full flex py-2 sm:py-3 cursor-pointer hover:border-white border-secondaryColor hover:scale-105 duration-300 text-center items-center border text-xs sm:text-sm font-semibold transition-all">
             <p>Following</p>
           </div>
-          <PiDotsThreeBold className="text-3xl hover:scale-105 duration-300 cursor-pointer hover:text-white text-secondaryColor  " />
-        </div>
+          <PiDotsThreeBold className="text-2xl sm:text-3xl hover:scale-105 duration-300 cursor-pointer hover:text-white text-secondaryColor" />
+        </div> */}
+
+        {/* Songs Section */}
         <div>
-          <p className="font-semibold text-lg mt-6">Songs by Billie eilish</p>
-          <div className="flex flex-col ">
+          <h2 className="font-bold text-xl sm:text-2xl mb-4 sm:mb-6">
+            Popular
+          </h2>
+          <div className="flex flex-col space-y-1">
             {artistDetails?.songs?.map((data, index) => (
               <span key={index} role="button" onClick={() => playMusic(index)}>
                 <MainMusicCard
@@ -84,7 +103,6 @@ export default function ProfilePage() {
                   name={data.name}
                   image={data.image}
                   url={data.url}
-                  // userName={data.user.name}
                 />
               </span>
             ))}
